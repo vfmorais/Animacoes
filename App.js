@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View, Image } from 'react-native';
+import sonic from './assets/sonic.png';
+import sonicc from './assets/sonicc.png';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+export default function App() {
+  const [expanded, setExpanded] = useState(false);
+  return (
+  <View style={style.container}>
+  <TouchableOpacity
+  onPress={() => {
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+  setExpanded(!expanded);
+ 
+ }}>
+ <Text>Toque em mim para {expanded ? 'retrair' : 'expandir'}!</Text>
+ 
+ </TouchableOpacity>
+ {expanded && (
+ <View style={style.tile}>
+ <Image source= {sonic} style={{width:190, height:200}}/>
+ <Image source= {sonicc} style={{width:190, height:200}}/>
+ </View>
+ )}
+ </View>
+ );
+}
+const style = StyleSheet.create({
+ tile: {
+ borderWidth: 0.5,
+ borderColor: '#d6d7da',
+ },
+ container: {
+ flex: 1,
+ justifyContent: 'center',
+ alignItems: 'center',
+ overflow: 'hidden',
+ },
 });
+
